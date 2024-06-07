@@ -100,8 +100,12 @@ class ProjectController extends Controller
 
         $types = Type::orderBy('name', 'asc')->get();
 
+        $project->load(['technologies']);
 
-        return view("admin.projects.edit", compact("project"), compact('types'));
+        $technologies = Technology::orderBy('name', 'asc')->get();
+
+
+        return view("admin.projects.edit", compact("project", 'types', 'technologies'));
     }
 
     /**
