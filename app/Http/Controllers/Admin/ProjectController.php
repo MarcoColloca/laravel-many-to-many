@@ -68,7 +68,17 @@ class ProjectController extends Controller
 
         $new_project->save();
 
-        return to_route("admin.projects.index");
+        if($request->has('technologies'))
+        {
+            //$post->technologies()->attach($form_data['technologies']);
+
+            $new_project->technologies()->attach($request->technologies);
+
+        }
+
+
+
+        return to_route("admin.projects.show", $new_project);
     }
 
     /**
