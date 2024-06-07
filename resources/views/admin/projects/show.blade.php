@@ -15,30 +15,35 @@
                 <p>
                     <span class="fw-bold">Type of Project:</span> {{$project->is_public === 0 ? 'Public' : 'Private'}} {{$project->type?->name ? ' - ' . $project->type->name: ''}}
                 </p>
-                <p>
-                    <a class="link link-primary" href="{{$project->link}}">Link al progetto</a>
-                </p>
-               
-                <p>
-                    <span class="fw-bold">Technologies:</span>
-                </p>
-                <ul class="d-flex gap-3">
+
+
+                @if (count($project->technologies) > 0)
+                <ul class="d-flex gap-3 flex-wrap">
                     @foreach ($project->technologies as $technology)                    
-                    <li>
+                    <li class="text-warning fw-bold">
                         {{$technology->name}}
                     </li>
                     @endforeach
                 </ul>
+                @endif
+
+
+                <p>
+                    <a class="link link-primary" href="{{$project->link}}">Link al progetto</a>
+                </p>               
                 
+
                 <p>
                     <span class="fw-bold">Contributors:</span> {{$project->contributors}}
-                </p>
+                </p>                
                 @if($project->contributors > 0)           
                 <p>
                     <span class="fw-bold">Contributors names:</span> <br> 
                     {{$project->contributors_name}}
                 </p>
                 @endif
+
+
                 <div class="accordion accordion-flush" id="projectDescriptionAccordion">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
