@@ -12,9 +12,16 @@ class Project extends Model
     use HasFactory, Sluggable;
 
 
-    public function type(){
+    public function type()
+    {
         // Non serve importare Type, in quanto se non importato viene cercato nello stesso namespace dove si trova, e in questo caso Project ha lo stesso namepasce di Project
         return $this->belongsTo(Type::class);
+    }
+
+
+    public function technologies()
+    {
+        return $this->belongsToMany(Technology::class);
     }
 
     protected $fillable = ['name', 'link', 'slug', 'link', 'description', 'date_of_creation', 'is_public', 'contributors', 'contributors_link', 'type_id'];
