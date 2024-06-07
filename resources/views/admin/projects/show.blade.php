@@ -21,7 +21,7 @@
                 <ul class="d-flex gap-3 flex-wrap">
                     @foreach ($project->technologies as $technology)                    
                     <li class="text-warning fw-bold">
-                        {{$technology->name}}
+                        {{ucfirst($technology->name)}}
                     </li>
                     @endforeach
                 </ul>
