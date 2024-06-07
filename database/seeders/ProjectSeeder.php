@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Str;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -44,7 +45,9 @@ class ProjectSeeder extends Seeder
         $types = Type::all(); // Collection di oggetti Type
 
         /** Tramite un metodo presente dentro la Collection */
-        $ids = $types->pluck('id')->all(); // Array di ids 
+        $types_ids = $types->pluck('id')->all(); // Array di types_ids 
+        $technology_ids = Technology::all()->pluck('id')->all(); // Array con gli id delle technology
+
         
         
         // Creazione di dati temporanei tramite Faker
@@ -63,10 +66,20 @@ class ProjectSeeder extends Seeder
             $project->is_public = $faker->randomElement([true, false]);
             $project->contributors = $contributors_number;
             $project->contributors_name = $contributors_list;
-            $project->type_id = $faker->optional()->randomElement($ids);
+            $project->type_id = $faker->optional()->randomElement($types_ids);
 
-            $project->save();
-            // dump($project);
+
+            // Ricorda che fino a QUI l'id del Project NON ESISTE
+            $project->save();            
+
+            // QUI il Project è stato salvato ed HA un id
+
+
+            // prendendo un numero random (grazie a null), di id random appartenenti ai technologies
+            $random_technologiy_ids = $faker->randomElements($technology_ids, null);
+
+            // assegno un numero casuale di technologies al mio project
+            $project->technologies()->attach($random_technologiy_ids);
         }
     }
 }
