@@ -34,7 +34,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="floatingSelect">Is Public?</label>
+                <label class="form-label fw-bold" for="floatingSelect">Is Public?</label>
                 <select class="form-select" id="type" name="type" aria-label="Floating label select example">
                     <option selected value="0">Public</option>
                     <option value="1">Private</option>
@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group mb-3">
-                <label for="type_id">Type of Project</label>
+                <label class="form-label fw-bold" for="type_id">Type of Project</label>
                 <select class="form-control" name="type_id" id="type_id">
                     <option value="">-- Seleziona Categoria --</option>
                     @foreach ($types as $type)                        
@@ -50,6 +50,23 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class="form-group mb-3 ">
+                <label class="form-label fw-bold" for="technology_id">Select Project technologies</label>
+
+                <div class="d-flex gap-2">
+                                        
+                    @foreach ($technologies as $technology)                        
+                        <div class="form-check ">
+                            <input @checked( in_array($technology->id, old('technologies', []))) name="technologies[]" class="form-check-input" type="checkbox" value="{{$technology->id}}" id="technology-{{$technology->id}}">
+                            <label class="form-check-label" for="technology-{{$technology->id}}">
+                                {{$technology->name}}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>                    
+            </div>
+
 
             <div class="mb-3">
                 <label for="contributors" class="form-label fw-bold">Contributors</label>

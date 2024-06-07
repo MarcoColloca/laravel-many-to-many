@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
@@ -34,8 +35,10 @@ class ProjectController extends Controller
 
         $types = Type::orderBy('name', 'asc')->get();
 
+        $technologies = Technology::orderBy('name', 'asc')->get();
 
-        return view('admin.projects.create', compact('types'));
+
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
