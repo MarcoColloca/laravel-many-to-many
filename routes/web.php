@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\TechnologyController;
 use App\Http\Controllers\Guest\ProjectController as GuestProjectController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\TypeController;
@@ -41,6 +42,7 @@ Route::middleware(['auth', 'verified'])
     // Registrare tutte le altre rotte protette. Nel nostro caso aggiungeremo la CRUD sui POSTS
     Route::resource('projects', ProjectController::class);
     Route::resource('types', TypeController::class);
+    Route::resource('technologies', TechnologyController::class);
 });
 
 
