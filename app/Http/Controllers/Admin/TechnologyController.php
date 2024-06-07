@@ -15,7 +15,9 @@ class TechnologyController extends Controller
      */
     public function index()
     {
-        //
+        $technologies = Technology::all();
+
+        return view('admin.technologies.index', compact('technologies'));
     }
 
     /**
@@ -23,7 +25,7 @@ class TechnologyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.technologies.create');
     }
 
     /**
@@ -31,7 +33,17 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        //
+        $form_data = $request->validated();
+
+        $new_technology = new Technology();
+        $new_technology->name = $form_data['name'];
+        $new_technology->slug = Technology::getUniqueSlug($new_technology->name);
+
+
+        
+        $new_technology->save();
+
+        return to_route("admin.technologies.index");
     }
 
     /**
@@ -39,7 +51,7 @@ class TechnologyController extends Controller
      */
     public function show(Technology $technology)
     {
-        //
+        return view('admin.technologies.show', compact('technology'));
     }
 
     /**
@@ -47,7 +59,7 @@ class TechnologyController extends Controller
      */
     public function edit(Technology $technology)
     {
-        //
+        return view("admin.technologies.edit", compact("technology"));
     }
 
     /**
@@ -55,7 +67,16 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
-        //
+        $form_data = $request->validated();
+
+        $technology->fill($form_data);
+
+        $technology->slug = Technology::getUniqueSlug($technology->name);
+
+        $technology->save();
+
+        return to_route('admin.technologies.index');
+
     }
 
     /**
@@ -63,6 +84,8 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology)
     {
-        //
+        $technology->delete();
+
+        return to_route('admin.technologies.index');
     }
 }
