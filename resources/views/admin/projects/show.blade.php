@@ -18,6 +18,18 @@
                 <p>
                     <a class="link link-primary" href="{{$project->link}}">Link al progetto</a>
                 </p>
+                @if($project->technologies)
+                <p>
+                    <span class="fw-bold">Technologies:</span>
+                </p>
+                <ul class="d-flex gap-3">
+                    @foreach ($project->technologies as $technology)                    
+                    <li>
+                        {{$technology->name}}
+                    </li>
+                    @endforeach
+                </ul>
+                @endif
                 <p>
                     <span class="fw-bold">Contributors:</span> {{$project->contributors}}
                 </p>
