@@ -30,7 +30,8 @@ class UpdateProjectRequest extends FormRequest
             'contributors'=> 'required|integer|numeric',
             'contributors_name'=> 'nullable|max:2000',
             'description'=> 'nullable|max:2000',
-            'type_id' => 'nullable|numeric|integer|exists:types,id' // l'ultimo pipe controlla nella tabella types se esiste il valore passato come value nella colonna id
+            'type_id' => 'nullable|numeric|integer|exists:types,id', // l'ultimo pipe controlla nella tabella types se esiste il valore passato come value nella colonna id
+            'technologies' => 'exists:technologies,id'
         ];
     }
 }

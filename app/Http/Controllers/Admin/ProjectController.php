@@ -70,7 +70,7 @@ class ProjectController extends Controller
 
         if($request->has('technologies'))
         {
-            //$post->technologies()->attach($form_data['technologies']);
+            //$project->technologies()->attach($form_data['technologies']);
 
             $new_project->technologies()->attach($request->technologies);
 
@@ -122,6 +122,25 @@ class ProjectController extends Controller
         $project->slug = Project::getUniqueSlug($project->name);
 
         $project->save();
+
+
+
+        /* La sincroniazzazione può essere effettuata sia prima che dopo
+        if($request->has('technologies'))
+        {
+            $project->technologies()->sync($request->technologies);
+        }else
+        {
+            // Se l'utente ha deselezionato tutti i tag (o non ne ha selezionato nessuno), con uno dei due metodi qui sotto
+            $project->technologies()->detach();
+            // $project->technologies()->sync([]);
+        }
+        */ 
+            
+            
+        // Altro metodo con il null coalescing PRO.        
+        $project->technologies()->sync($request->technologies ?? []);
+
 
         return to_route('admin.projects.show', $project);
     }
