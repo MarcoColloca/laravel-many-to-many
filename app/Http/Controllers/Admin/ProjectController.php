@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -17,14 +18,37 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $types = Type::orderBy('name', 'asc')->get();
+
         //$projects = Project::all();
-        $projects = Project::with(['type', 'type.projects'])->get(); // 3 query. la 1° prende i project, la 2° prende i tipi associati a quel project, la 3° prende tutti i progetti associati al tipo indicato
-        //dd($projects);
+        $query = Project::with(['type', 'type.projects']); // 3 query. la 1° prende i project, la 2° prende i tipi associati a quel project, la 3° prende tutti i progetti associati al tipo indicato
 
 
-        return view('admin.projects.index', compact('projects'));
+
+        $filters = $request->all();
+
+        if(isset($filters['project_status'])) {
+            $query->where('is_public', $filters['project_status']);
+        }
+
+        if(isset($filters['type_id']))
+        {
+            $query->where('type_id', $filters['type_id']);
+        }
+
+
+
+        // $public_projects = Project::where('is_public', '=' ,0)->get();
+
+        // $private_projects = Project::where('is_public', 1)->get();
+
+
+        $projects = $query->get();
+
+        return view('admin.projects.index', compact('projects', 'types'));
     }
 
     /**
