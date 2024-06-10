@@ -32,7 +32,7 @@ class ProjectController extends Controller
 
         $filters = $request->all();
         
-        dump($filters);
+        // dump($filters);
 
         if(isset($filters['project_status'])) 
         {
