@@ -34,7 +34,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold" for="floatingSelect">Is Public?</label>
+                <label class="form-label fw-bold" for="type">Is Public?</label>
                 <select class="form-select" id="type" name="type" aria-label="Floating label select example">
                     <option selected value="0">Public</option>
                     <option value="1">Private</option>
