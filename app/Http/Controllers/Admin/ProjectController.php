@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProjectController extends Controller
 {
@@ -22,6 +23,7 @@ class ProjectController extends Controller
     {
 
         $types = Type::orderBy('name', 'asc')->get();
+        $technologies = Technology::orderBy('name', 'asc')->get();
 
         //$projects = Project::all();
         $query = Project::with(['type', 'type.projects']); // 3 query. la 1° prende i project, la 2° prende i tipi associati a quel project, la 3° prende tutti i progetti associati al tipo indicato
@@ -29,16 +31,28 @@ class ProjectController extends Controller
 
 
         $filters = $request->all();
+        
+        dump($filters);
 
-        if(isset($filters['project_status'])) {
+        if(isset($filters['project_status'])) 
+        {
             $query->where('is_public', $filters['project_status']);
         }
 
         if(isset($filters['type_id']))
         {
             $query->where('type_id', $filters['type_id']);
+
         }
 
+        if(isset($filters['technologies']))
+        {
+            $query->whereHas('technologies', function (Builder $query) use($filters) {
+
+                $query->whereIn('id', $filters['technologies']);
+                
+            });
+        }
 
 
         // $public_projects = Project::where('is_public', '=' ,0)->get();
@@ -48,7 +62,7 @@ class ProjectController extends Controller
 
         $projects = $query->get();
 
-        return view('admin.projects.index', compact('projects', 'types'));
+        return view('admin.projects.index', compact('projects', 'types', 'technologies'));
     }
 
     /**
