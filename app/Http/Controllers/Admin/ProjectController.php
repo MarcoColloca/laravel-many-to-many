@@ -39,11 +39,20 @@ class ProjectController extends Controller
             $query->where('is_public', $filters['project_status']);
         }
 
-        if(isset($filters['type_id']))
+
+
+
+        if(isset($filters['type_id']) && $filters['type_id'] === 'none')
+        {
+            $query->where('type_id', null);
+        }
+        elseif(isset($filters['type_id']))
         {
             $query->where('type_id', $filters['type_id']);
-
         }
+            
+            
+
 
         if(isset($filters['technologies']))
         {
